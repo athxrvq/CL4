@@ -1,0 +1,26 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = sns.load_dataset("titanic")
+
+
+def analyze(df):
+    dm = df[(df['survived'] == 0) & (df['sex'] == 'male')]
+    dfc = df[(df['survived'] == 0) & (df['sex'] == 'female')]['class'].value_counts()
+
+    sns.histplot(dm['age'])
+    plt.title('Deceased Males: Age Distribution')
+    plt.xlabel('Age'); plt.ylabel('Count')
+    plt.show()
+
+    sns.barplot(x=dfc.index, y=dfc.values, palette='coolwarm')
+    plt.title('Deceased Females by Class')
+    plt.xlabel('Class'); plt.ylabel('Count')
+    plt.show()
+
+    return dm['age'].mean(), dfc
+
+avg_age, female_counts = analyze(df)
+print(f"\nAverage age of deceased males: {avg_age:.2f}")
+print("\nDeceased females by class:\n", female_counts)

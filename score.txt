@@ -1,0 +1,17 @@
+def map_reduce(student_scores):
+    return {
+        student_id: (
+            'A' if score > 80 else
+            'B' if score > 60 else
+            'C' if score > 40 else
+            'D'
+        )
+        for student_id, score in student_scores
+    }
+
+student_scores = [(1, 85), (2, 75), (3, 55), (4, 35), (5, 90)]
+grades = map_reduce(student_scores)
+print (grades)
+
+for sid, grade in grades.items():
+    print(f"Student {sid} has been assigned grade {grade}.")
