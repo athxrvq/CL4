@@ -1,3 +1,21 @@
+from collections import defaultdict
+
+student_scores = defaultdict(list)
+
+# Read and process the file
+with open("student_scores_multi_names.txt", "r") as file:
+    for line in file:
+        parts = line.strip().split()
+        if len(parts) == 2:
+            name, score = parts
+            student_scores[name].append(int(score))
+        else:
+            print(f"Skipping invalid line: {line.strip()}")
+
+# Compute average scores per student
+average_scores = [(name, sum(scores) // len(scores)) for name, scores in student_scores.items()]
+
+# Grade assignment function
 def map_reduce(student_scores):
     return {
         student_id: (
@@ -9,9 +27,9 @@ def map_reduce(student_scores):
         for student_id, score in student_scores
     }
 
-student_scores = [(1, 85), (2, 75), (3, 55), (4, 35), (5, 90)]
-grades = map_reduce(student_scores)
-print (grades)
+# Get grades
+grades = map_reduce(average_scores)
 
-for sid, grade in grades.items():
-    print(f"Student {sid} has been assigned grade {grade}.")
+# Print results
+for name, grade in grades.items():
+    print(f"{name} has been assigned grade {grade}.")
