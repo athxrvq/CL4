@@ -1,0 +1,10 @@
+use myNewDatabase
+
+db.myNewCollection.insertOne({ name: "John Doe", age: 30 })
+db.myNewCollection.insertOne({ name: "Jane Doe", age: 25 })
+
+db.myNewCollection.findOne({ name: "John Doe" })
+
+db.myNewCollection.updateOne({ name: "John Doe" }, { $set: { age: 31 } })
+
+db.myNewCollection.deleteOne({ name: "Bob" })
