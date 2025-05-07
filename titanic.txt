@@ -1,26 +1,20 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-df = sns.load_dataset("titanic")
+def map_reduce_with_pandas(input_file):
+    df = pd.read_csv(input_file)
 
+    deceased_males = df[(df['Survived'] == 0) & (df['Sex'] == 'male')]
 
-def analyze(df):
-    dm = df[(df['survived'] == 0) & (df['sex'] == 'male')]
-    dfc = df[(df['survived'] == 0) & (df['sex'] == 'female')]['class'].value_counts()
+    average_age_deceased_males = deceased_males['Age'].mean()
 
-    sns.histplot(dm['age'])
-    plt.title('Deceased Males: Age Distribution')
-    plt.xlabel('Age'); plt.ylabel('Count')
-    plt.show()
+    deceased_females_by_class = df[(df['Survived'] == 0) & (df['Sex'] == 'female')]
 
-    sns.barplot(x=dfc.index, y=dfc.values, palette='coolwarm')
-    plt.title('Deceased Females by Class')
-    plt.xlabel('Class'); plt.ylabel('Count')
-    plt.show()
+    count_deceased_females_by_class = deceased_females_by_class['Pclass'].value_counts()
 
-    return dm['age'].mean(), dfc
+    return average_age_deceased_males, count_deceased_females_by_class
 
-avg_age, female_counts = analyze(df)
-print(f"\nAverage age of deceased males: {avg_age:.2f}")
-print("\nDeceased females by class:\n", female_counts)
+input_file = 'titanic_data.csv'  # Ensure this is your correct file path
+average_age, female_class_count = map_reduce_with_pandas(input_file)
+print(f"Average age of males who died: {average_age:.2f}")
+print("Number of deceased females in each class:")
+print(female_class_count)
